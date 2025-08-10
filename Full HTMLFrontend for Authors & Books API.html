@@ -84,7 +84,7 @@
     document.getElementById('createAuthorForm').onsubmit = async e => {
       e.preventDefault();
       const data = formToJSON(e.target);
-      const res = await fetch(`${apiBase}/authors`, {
+      const res = await fetch(`${apiBase}/authors/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -98,7 +98,7 @@
     // Get Authors
     async function getAuthors() {
       try {
-        const res = await fetch(`${apiBase}/authors`, {
+        const res = await fetch(`${apiBase}/authors/`, {
           method: 'GET',
           credentials: 'include'
         });
@@ -117,7 +117,7 @@
       const data = formToJSON(e.target);
       const id = data.id;
       delete data.id;
-      const res = await fetch(`${apiBase}/authors/${id}`, {
+      const res = await fetch(`${apiBase}/authors/${id}/`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -132,7 +132,7 @@
     document.getElementById('deleteAuthorForm').onsubmit = async e => {
       e.preventDefault();
       const id = e.target.id.value;
-      await fetch(`${apiBase}/authors/${id}`, {
+      await fetch(`${apiBase}/authors/${id}/`, {
         method: 'DELETE',
         credentials: 'include'
       });
@@ -143,7 +143,7 @@
     document.getElementById('createBookForm').onsubmit = async e => {
       e.preventDefault();
       const data = formToJSON(e.target);
-      const res = await fetch(`${apiBase}/books`, {
+      const res = await fetch(`${apiBase}/books/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -156,7 +156,7 @@
 
     // Get Books
     async function getBooks() {
-      const res = await fetch(`${apiBase}/books`, {
+      const res = await fetch(`${apiBase}/books/`, {
         method: 'GET',
         credentials: 'include'
       });
@@ -170,7 +170,7 @@
       const data = formToJSON(e.target);
       const id = data.id;
       delete data.id;
-      const res = await fetch(`${apiBase}/books/${id}`, {
+      const res = await fetch(`${apiBase}/books/${id}/`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -185,7 +185,7 @@
     document.getElementById('deleteBookForm').onsubmit = async e => {
       e.preventDefault();
       const id = e.target.id.value;
-      await fetch(`${apiBase}/books/${id}`, {
+      await fetch(`${apiBase}/books/${id}/`, {
         method: 'DELETE',
         credentials: 'include'
       });
