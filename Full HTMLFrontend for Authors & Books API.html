@@ -8,7 +8,7 @@
     h2 { margin-top: 40px; }
     form { margin-bottom: 20px; }
     input, button { margin: 5px; padding: 5px; }
-    .result { background: #f0f0f0; padding: 10px; margin-top: 10px; }
+    .result { background: #f0f0f0; padding: 10px; margin-top: 10px; white-space: pre-wrap; }
   </style>
 </head>
 <body>
@@ -47,7 +47,7 @@
   <h2>Create Book</h2>
   <form id="createBookForm">
     <input type="text" name="title" placeholder="Title" required>
-    <input type="text" name="year" placeholder="Year" required>
+    <input type="number" name="year" placeholder="Year" required>
     <input type="number" name="author_id" placeholder="Author ID" required>
     <button type="submit">Create Book</button>
   </form>
@@ -61,7 +61,7 @@
   <form id="updateBookForm">
     <input type="number" name="id" placeholder="Book ID" required>
     <input type="text" name="title" placeholder="New Title">
-    <input type="text" name="year" placeholder="New Year">
+    <input type="number" name="year" placeholder="New Year">
     <button type="submit">Update Book</button>
   </form>
 
@@ -73,12 +73,27 @@
   </form>
 
   <script>
-    // const apiBase = 'http://localhost:5000/api'; // Change if your API runs elsewhere
-    const apiBase = 'https://author-book-management-system-production.up.railway.app/api'; // Change if your API runs elsewhere
+    // const apiBase = 'http://localhost:5000/api'; // for Flask
+    // const apiBase = 'https://author-book-management-system-production.up.railway.app/api'; // Change if your API runs elsewhere
+    const apiBase = 'http://127.0.0.1:3000'; // for GoLang
 
     function formToJSON(form) {
       const data = new FormData(form);
-      return Object.fromEntries(data.entries());
+      const obj = {};
+
+      for (const [key, value] of data.entries()) {
+        const trimmed = value.trim();
+        if (trimmed === "") continue;
+
+        const input = form.querySelector(`[name="${key}"]`);
+        if (input && input.type === "number") {
+          obj[key] = trimmed.includes(".") ? parseFloat(trimmed) : parseInt(trimmed, 10);
+        } else {
+          obj[key] = trimmed;
+        }
+      }
+
+      return obj;
     }
 
     // Create Author
@@ -99,11 +114,7 @@
     // Get Authors
     async function getAuthors() {
       try {
-        const res = await fetch(`${apiBase}/authors/`, {
-          method: 'GET',
-          credentials: 'include'
-        });
-        if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+        const res = await fetch(`${apiBase}/authors/`, { method: 'GET', credentials: 'include' });
         const json = await res.json();
         document.getElementById('authorsResult').innerText = JSON.stringify(json, null, 2);
       } catch (err) {
@@ -144,23 +155,28 @@
     document.getElementById('createBookForm').onsubmit = async e => {
       e.preventDefault();
       const data = formToJSON(e.target);
+      console.log("Payload to backend:", JSON.stringify(data));
+
       const res = await fetch(`${apiBase}/books/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify(data)
       });
+
       const json = await res.json();
-      alert('Book created!');
-      console.log(json);
+      if (res.ok) {
+        alert('Book created!');
+        getBooks();
+      } else {
+        alert(`Error: ${json.error}`);
+        console.error(json);
+      }
     };
 
     // Get Books
     async function getBooks() {
-      const res = await fetch(`${apiBase}/books/`, {
-        method: 'GET',
-        credentials: 'include'
-      });
+      const res = await fetch(`${apiBase}/books/`, { method: 'GET', credentials: 'include' });
       const json = await res.json();
       document.getElementById('booksResult').innerText = JSON.stringify(json, null, 2);
     }
