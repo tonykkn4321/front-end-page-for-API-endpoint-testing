@@ -3,210 +3,281 @@
 <head>
   <meta charset="UTF-8">
   <title>Authors & Books API</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    h2 { margin-top: 40px; }
-    form { margin-bottom: 20px; }
-    input, button { margin: 5px; padding: 5px; }
-    .result { background: #f0f0f0; padding: 10px; margin-top: 10px; white-space: pre-wrap; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
+  <div class="container-fluid p-4">
+    <!-- Top Title -->
+    <div class="text-center mb-4">
+      <h1>📚 Authors & Books API Interface</h1>
+    </div>
 
-  <h1>Authors & Books API Interface</h1>
+    <!-- Auth Row -->
+    <div class="row align-items-center mb-4">
+      <div class="col-md-8 d-flex flex-wrap gap-2" id="authForms">
+        <form id="createUserForm" class="d-flex flex-wrap gap-2">
+          <input type="text" name="username" placeholder="Username" required class="form-control w-auto">
+          <input type="password" name="password" placeholder="Password" required class="form-control w-auto">
+          <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <form id="loginForm" class="d-flex flex-wrap gap-2">
+          <input type="text" name="username" placeholder="Username" required class="form-control w-auto">
+          <input type="password" name="password" placeholder="Password" required class="form-control w-auto">
+          <button type="submit" class="btn btn-success">Login</button>
+        </form>
+      </div>
+      <div class="col-md-4 text-end">
+        <span id="loginStatus" class="fw-bold text-success"></span>
+        <button id="logoutBtn" class="btn btn-outline-secondary ms-2 d-none">Logout</button>
+      </div>
+    </div>
 
-  <!-- Create Author -->
-  <h2>Create Author</h2>
-  <form id="createAuthorForm">
-    <input type="text" name="first_name" placeholder="First Name" required>
-    <input type="text" name="last_name" placeholder="Last Name" required>
-    <button type="submit">Create Author</button>
-  </form>
-
-  <!-- Get All Authors -->
-  <button onclick="getAuthors()">Get All Authors</button>
-  <div id="authorsResult" class="result"></div>
-
-  <!-- Update Author -->
-  <h2>Update Author</h2>
-  <form id="updateAuthorForm">
-    <input type="number" name="id" placeholder="Author ID" required>
-    <input type="text" name="first_name" placeholder="New First Name">
-    <input type="text" name="last_name" placeholder="New Last Name">
-    <button type="submit">Update Author</button>
-  </form>
-
-  <!-- Delete Author -->
-  <h2>Delete Author</h2>
-  <form id="deleteAuthorForm">
-    <input type="number" name="id" placeholder="Author ID" required>
-    <button type="submit">Delete Author</button>
-  </form>
-
-  <!-- Create Book -->
-  <h2>Create Book</h2>
-  <form id="createBookForm">
-    <input type="text" name="title" placeholder="Title" required>
-    <input type="number" name="year" placeholder="Year" required>
-    <input type="number" name="author_id" placeholder="Author ID" required>
-    <button type="submit">Create Book</button>
-  </form>
-
-  <!-- Get All Books -->
-  <button onclick="getBooks()">Get All Books</button>
-  <div id="booksResult" class="result"></div>
-
-  <!-- Update Book -->
-  <h2>Update Book</h2>
-  <form id="updateBookForm">
-    <input type="number" name="id" placeholder="Book ID" required>
-    <input type="text" name="title" placeholder="New Title">
-    <input type="number" name="year" placeholder="New Year">
-    <button type="submit">Update Book</button>
-  </form>
-
-  <!-- Delete Book -->
-  <h2>Delete Book</h2>
-  <form id="deleteBookForm">
-    <input type="number" name="id" placeholder="Book ID" required>
-    <button type="submit">Delete Book</button>
-  </form>
-
+    <!-- Main Content -->
+    <div class="row">
+      <!-- Author Column -->
+      <div class="col-md-6">
+        <h2>👤 Author Endpoints</h2>
+        <div class="card p-3 mb-3">
+          <h4>GET Authors</h4>
+          <button onclick="getAuthors()" class="btn btn-info w-100">Get All Authors</button>
+          <pre id="authorsResult" class="bg-white p-2 border rounded mt-2"></pre>
+        </div>
+        <div class="card p-3 mb-3">
+          <h4>CREATE Author</h4>
+          <form id="createAuthorForm">
+            <input type="text" name="first_name" class="form-control mb-2" placeholder="First Name" required>
+            <input type="text" name="last_name" class="form-control mb-2" placeholder="Last Name" required>
+            <button type="submit" class="btn btn-primary w-100">Create Author</button>
+          </form>
+        </div>
+        <div class="card p-3 mb-3">
+          <h4>UPDATE Author</h4>
+          <form id="updateAuthorForm">
+            <input type="number" name="id" class="form-control mb-2" placeholder="Author ID" required>
+            <input type="text" name="first_name" class="form-control mb-2" placeholder="New First Name">
+            <input type="text" name="last_name" class="form-control mb-2" placeholder="New Last Name">
+            <button type="submit" class="btn btn-warning w-100">Update Author</button>
+          </form>
+        </div>
+        <div class="card p-3 mb-3">
+          <h4>DELETE Author</h4>
+          <form id="deleteAuthorForm">
+            <input type="number" name="id" class="form-control mb-2" placeholder="Author ID" required>
+            <button type="submit" class="btn btn-danger w-100">Delete Author</button>
+          </form>
+        </div>
+      </div>
+      <!-- Book Column -->
+      <div class="col-md-6">
+        <h2>📘 Book Endpoints</h2>
+        <div class="card p-3 mb-3">
+          <h4>GET Books</h4>
+          <button onclick="getBooks()" class="btn btn-info w-100">Get All Books</button>
+          <pre id="booksResult" class="bg-white p-2 border rounded mt-2"></pre>
+        </div>
+        <div class="card p-3 mb-3">
+          <h4>CREATE Book</h4>
+          <form id="createBookForm">
+            <input type="text" name="title" class="form-control mb-2" placeholder="Title" required>
+            <input type="number" name="year" class="form-control mb-2" placeholder="Year" required>
+            <input type="number" name="author_id" class="form-control mb-2" placeholder="Author ID" required>
+            <button type="submit" class="btn btn-primary w-100">Create Book</button>
+          </form>
+        </div>
+        <div class="card p-3 mb-3">
+          <h4>UPDATE Book</h4>
+          <form id="updateBookForm">
+            <input type="number" name="id" class="form-control mb-2" placeholder="Book ID" required>
+            <input type="text" name="title" class="form-control mb-2" placeholder="New Title">
+            <input type="number" name="year" class="form-control mb-2" placeholder="New Year">
+            <button type="submit" class="btn btn-warning w-100">Update Book</button>
+          </form>
+        </div>
+        <div class="card p-3 mb-3">
+          <h4>DELETE Book</h4>
+          <form id="deleteBookForm">
+            <input type="number" name="id" class="form-control mb-2" placeholder="Book ID" required>
+            <button type="submit" class="btn btn-danger w-100">Delete Book</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <script>
-    // const apiBase = 'http://localhost:5000/api'; // for Flask
-    // const apiBase = 'https://author-book-management-system-production.up.railway.app/api'; // Change if your API runs elsewhere
-    const apiBase = 'http://127.0.0.1:3000'; // for GoLang
+    const apiBase = 'http://localhost:5000/api';
+    let jwtToken = null;
+    let currentUser = null;
 
     function formToJSON(form) {
       const data = new FormData(form);
       const obj = {};
-
       for (const [key, value] of data.entries()) {
         const trimmed = value.trim();
         if (trimmed === "") continue;
-
         const input = form.querySelector(`[name="${key}"]`);
-        if (input && input.type === "number") {
-          obj[key] = trimmed.includes(".") ? parseFloat(trimmed) : parseInt(trimmed, 10);
-        } else {
-          obj[key] = trimmed;
-        }
+        obj[key] = input.type === "number" ? parseFloat(trimmed) : trimmed;
       }
-
       return obj;
     }
 
-    // Create Author
-    document.getElementById('createAuthorForm').onsubmit = async e => {
-      e.preventDefault();
-      const data = formToJSON(e.target);
-      const res = await fetch(`${apiBase}/authors/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(data)
-      });
-      const json = await res.json();
-      alert('Author created!');
-      console.log(json);
-    };
+    function authHeaders() {
+      return jwtToken
+        ? { 'Content-Type': 'application/json', 'Authorization': `Bearer ${jwtToken}` }
+        : { 'Content-Type': 'application/json' };
+    }
 
-    // Get Authors
-    async function getAuthors() {
+    async function safeFetch(url, options) {
       try {
-        const res = await fetch(`${apiBase}/authors/`, { method: 'GET', credentials: 'include' });
-        const json = await res.json();
-        document.getElementById('authorsResult').innerText = JSON.stringify(json, null, 2);
+        const res = await fetch(url, options);
+        const text = await res.text();
+        if (!res.ok) {
+          console.error('Error response:', text);
+          alert(`Error ${res.status}: ${text}`);
+          return null;
+        }
+        return JSON.parse(text);
       } catch (err) {
-        console.error('Failed to fetch authors:', err);
-        document.getElementById('authorsResult').innerText = `Error: ${err.message}`;
+        console.error('Fetch failed:', err);
+        alert('Network or parsing error');
+        return null;
       }
     }
 
-    // Update Author
+    // Register
+    document.getElementById('createUserForm').onsubmit = async e => {
+      e.preventDefault();
+      const data = formToJSON(e.target);
+      const json = await safeFetch(`${apiBase}/users/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (json) alert('User registered!');
+    };
+
+    // Login
+    document.getElementById('loginForm').onsubmit = async e => {
+      e.preventDefault();
+      const data = formToJSON(e.target);
+      const json = await safeFetch(`${apiBase}/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (json && json.access_token) {
+        jwtToken = json.access_token;
+        currentUser = data.username;
+        document.getElementById('loginStatus').innerText = `${currentUser} logged in`;
+        document.getElementById('authForms').classList.add('d-none');
+        document.getElementById('logoutBtn').classList.remove('d-none');
+        alert('Login successful!');
+      }
+    };
+
+    // Logout
+    document.getElementById('logoutBtn').onclick = () => {
+      jwtToken = null;
+      currentUser = null;
+      document.getElementById('loginStatus').innerText = '';
+      document.getElementById('authForms').classList.remove('d-none');
+      document.getElementById('logoutBtn').classList.add('d-none');
+      alert('Logged out successfully!');
+    };
+
+    // Author Endpoints
+    document.getElementById('createAuthorForm').onsubmit = async e => {
+      e.preventDefault();
+      const data = formToJSON(e.target);
+      const json = await safeFetch(`${apiBase}/authors/`, {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify(data)
+      });
+      if (json) alert('Author created!');
+    };
+
+    async function getAuthors() {
+      const json = await safeFetch(`${apiBase}/authors/`, {
+        method: 'GET',
+        headers: authHeaders()
+      });
+      if (json) {
+        document.getElementById('authorsResult').innerText = JSON.stringify(json, null, 2);
+      }
+    }
+
     document.getElementById('updateAuthorForm').onsubmit = async e => {
       e.preventDefault();
       const data = formToJSON(e.target);
       const id = data.id;
       delete data.id;
-      const res = await fetch(`${apiBase}/authors/${id}/`, {
+      const json = await safeFetch(`${apiBase}/authors/${id}/`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        headers: authHeaders(),
         body: JSON.stringify(data)
       });
-      const json = await res.json();
-      alert('Author updated!');
-      console.log(json);
+      if (json) alert('Author updated!');
     };
 
-    // Delete Author
     document.getElementById('deleteAuthorForm').onsubmit = async e => {
       e.preventDefault();
       const id = e.target.id.value;
-      await fetch(`${apiBase}/authors/${id}/`, {
+      const json = await safeFetch(`${apiBase}/authors/${id}/`, {
         method: 'DELETE',
-        credentials: 'include'
+        headers: authHeaders()
       });
-      alert('Author deleted!');
+      if (json !== null) alert('Author deleted!');
     };
 
-    // Create Book
+    // Book Endpoints
     document.getElementById('createBookForm').onsubmit = async e => {
       e.preventDefault();
       const data = formToJSON(e.target);
-      console.log("Payload to backend:", JSON.stringify(data));
-
-      const res = await fetch(`${apiBase}/books/`, {
+      const json = await safeFetch(`${apiBase}/books/`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        headers: authHeaders(),
         body: JSON.stringify(data)
       });
-
-      const json = await res.json();
-      if (res.ok) {
+      if (json) {
         alert('Book created!');
         getBooks();
-      } else {
-        alert(`Error: ${json.error}`);
-        console.error(json);
       }
     };
 
-    // Get Books
     async function getBooks() {
-      const res = await fetch(`${apiBase}/books/`, { method: 'GET', credentials: 'include' });
-      const json = await res.json();
-      document.getElementById('booksResult').innerText = JSON.stringify(json, null, 2);
+      const json = await safeFetch(`${apiBase}/books/`, {
+        method: 'GET',
+        headers: authHeaders()
+      });
+      if (json) {
+        document.getElementById('booksResult').innerText = JSON.stringify(json, null, 2);
+      }
     }
 
-    // Update Book
     document.getElementById('updateBookForm').onsubmit = async e => {
       e.preventDefault();
       const data = formToJSON(e.target);
       const id = data.id;
       delete data.id;
-      const res = await fetch(`${apiBase}/books/${id}/`, {
+      const json = await safeFetch(`${apiBase}/books/${id}/`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        headers: authHeaders(),
         body: JSON.stringify(data)
       });
-      const json = await res.json();
-      alert('Book updated!');
-      console.log(json);
+      if (json) alert('Book updated!');
     };
 
-    // Delete Book
     document.getElementById('deleteBookForm').onsubmit = async e => {
       e.preventDefault();
       const id = e.target.id.value;
-      await fetch(`${apiBase}/books/${id}/`, {
+      const json = await safeFetch(`${apiBase}/books/${id}/`, {
         method: 'DELETE',
-        credentials: 'include'
+        headers: authHeaders()
       });
-      alert('Book deleted!');
+      if (json !== null) alert('Book deleted!');
     };
   </script>
 </body>
